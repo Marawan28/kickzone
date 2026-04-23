@@ -1,0 +1,5 @@
+[variables]
+    PHP_EXTENSION_CONF = "exif"
+
+[phases.install]
+    cmds = ["composer install --optimize-autoloader --no-scripts --no-interaction --ignore-platform-req=php-64bit"]
