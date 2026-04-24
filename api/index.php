@@ -2,15 +2,18 @@
 
 use Illuminate\Http\Request;
 
+// إظهار الأخطاء فوراً عشان نعرف السبب لو ضرب
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 define('LARAVEL_START', microtime(true));
 
-// 1. تحميل الـ Autoloader
+// تأكد من استخدام realpath لضمان المسار الصحيح في Vercel
 require __DIR__ . '/../vendor/autoload.php';
 
-// 2. تشغيل التطبيق (تأكد من المسار)
-$app = require __DIR__ . '/../bootstrap/app.php';
+$app = require_once __DIR__ . '/../bootstrap/app.php';
 
-// 3. معالجة الطلب
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(
