@@ -2,23 +2,26 @@
 
 use Illuminate\Http\Request;
 
-// إظهار الأخطاء فوراً عشان نعرف السبب لو ضرب
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 define('LARAVEL_START', microtime(true));
 
-// تأكد من استخدام realpath لضمان المسار الصحيح في Vercel
+// 1. تحميل المكتبات
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = require_once __DIR__ . '/../bootstrap/app.php';
+// 2. تشغيل التطبيق
+$app = require __DIR__ . '/../bootstrap/app.php';
 
+// صمام أمان لو الـ app رجع true
+if ($app === true) {
+    $app = \Illuminate\Foundation\Application::getInstance();
+}
+
+// 3. التعامل مع الـ Kernel والـ Request
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
-$response = $kernel->handle(
-    $request = Request::capture()
-);
+// تعديل طريقة الـ capture لضمان وصول الكلاس
+$request = \Illuminate\Http\Request::capture();
+
+$response = $kernel->handle($request);
 
 $response->send();
 
