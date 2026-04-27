@@ -92,6 +92,12 @@ Route::prefix('v1')->group(function (): void {
     });
 });
 
+Route::get('/v1/test', function () {
+    return response()->json([
+        'message' => 'API works 🚀'
+    ]);
+});
+
 
 
 // ============================================================
