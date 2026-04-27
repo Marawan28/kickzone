@@ -1,22 +1,11 @@
 <?php
-use Illuminate\Http\Request;
 
-define('LARAVEL_START', microtime(true));
+/**
+ * KickZone — Vercel Entry Point
+ *
+ * Vercel only allows serverless function entry-points inside the /api directory.
+ * This file simply forwards every incoming request to Laravel's standard
+ * public/index.php so the framework handles routing normally.
+ */
 
-// التحميل من الفولدر الرئيسي (خارج فولدر api)
-require __DIR__ . '/../vendor/autoload.php';
-$app = require_once __DIR__ . '/../bootstrap/app.php';
-
-// صمام أمان لنسخ لارايفل الجديدة
-if ($app === true) {
-    $app = \Illuminate\Foundation\Application::getInstance();
-}
-
-$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-
-$response = $kernel->handle(
-    $request = Request::capture()
-);
-
-$response->send();
-$kernel->terminate($request, $response);
+require __DIR__ . '/../public/index.php';

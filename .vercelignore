@@ -1,0 +1,21 @@
+# KickZone — Vercel upload ignore list
+# Vercel runs "composer install --no-dev" during build, so vendor is not needed.
+
+/vendor
+/node_modules
+/.git
+/.github
+/tests
+/storage/logs
+/storage/framework/cache
+/storage/framework/sessions
+/storage/framework/views
+/.env
+/.env.local
+/.env.testing
+*.log
+*.cache
+Makefile
+README.md
+ARCHITECTURE.md
+SETUP_GUIDE.md

@@ -3,18 +3,51 @@
   "framework": null,
   "functions": {
     "api/index.php": {
-      "runtime": "vercel-php@0.7.1"
+      "runtime": "vercel-php@0.6.2",
+      "memory": 1024,
+      "maxDuration": 30
     }
   },
   "routes": [
     {
-      "src": "/(css|js|images|favicon.ico)(.*)",
-      "dest": "/public/$1$2"
+      "src": "/build/(.*)",
+      "dest": "/public/build/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "headers": { "Content-Type": "image/x-icon" },
+      "dest": "/public/favicon.ico"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/public/robots.txt"
     },
     {
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
   ],
-  "outputDirectory": "."
+  "outputDirectory": "public",
+  "env": {
+    "APP_NAME": "Laravel",
+    "APP_ENV": "production",
+    "APP_DEBUG": "false",
+    "APP_URL": "https://kickzone-api.vercel.app",
+    "LOG_CHANNEL": "stderr",
+    "LOG_LEVEL": "error",
+
+    "APP_CONFIG_CACHE": "/tmp/config.php",
+    "APP_EVENTS_CACHE": "/tmp/events.php",
+    "APP_PACKAGES_CACHE": "/tmp/packages.php",
+    "APP_ROUTES_CACHE": "/tmp/routes.php",
+    "APP_SERVICES_CACHE": "/tmp/services.php",
+    "VIEW_COMPILED_PATH": "/tmp",
+
+    "CACHE_STORE": "array",
+    "SESSION_DRIVER": "cookie",
+    "QUEUE_CONNECTION": "sync",
+    "FILESYSTEM_DISK": "local",
+
+    "BCRYPT_ROUNDS": "10"
+  }
 }
