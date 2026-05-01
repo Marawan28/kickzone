@@ -31,7 +31,7 @@
   "env": {
     "APP_NAME": "Laravel",
     "APP_ENV": "production",
-    "APP_DEBUG": "false",
+    "APP_DEBUG": "true",
     "APP_URL": "https://kickzone.vercel.app",
     "LOG_CHANNEL": "stderr",
     "LOG_LEVEL": "error",
