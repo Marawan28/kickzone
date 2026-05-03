@@ -38,8 +38,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'phone.verified' => EnsurePhoneVerified::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        Handler::register($exceptions);
-    })
+  
     ->create();
 
