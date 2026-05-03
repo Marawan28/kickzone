@@ -5,7 +5,7 @@
 // ============================================================
 declare(strict_types=1);
 
-
+use App\Exceptions\KickZoneExceptionHandler;
 use App\Exceptions\Handler;
 use App\Http\Middleware\{
     EnsurePhoneVerified,
