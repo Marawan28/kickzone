@@ -5,7 +5,8 @@
 // ============================================================
 declare(strict_types=1);
 
-use App\Exceptions\KickZoneExceptionHandler;
+
+use App\Exceptions\Handler;
 use App\Http\Middleware\{
     EnsurePhoneVerified,
     EnsureUserIsOwner,
@@ -38,6 +39,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'phone.verified' => EnsurePhoneVerified::class,
         ]);
     })
-  
+    ->withExceptions(function (Exceptions $exceptions): void {
+        KickZoneExceptionHandler::register($exceptions);
+    })
     ->create();
 
