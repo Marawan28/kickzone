@@ -42,4 +42,22 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+        public function owner(): static
+    {
+        return $this->state(['role' => UserRole::Owner]);
+    }
+
+    public function player(): static
+    {
+        return $this->state(['role' => UserRole::Player]);
+    }
+
+    public function withBalance(int $amount): static
+    {
+        return $this->state(['balance' => $amount]);
+    }
+
+    
+    
 }
