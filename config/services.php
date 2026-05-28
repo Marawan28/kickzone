@@ -14,6 +14,12 @@ return [
     |
     */
 
+
+    'b4a' => [
+    'base_url' => env('B4A_BASE_URL'),
+    'app_id'   => env('B4A_APP_ID'),
+    'rest_key' => env('B4A_REST_KEY'),
+    ],
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],
