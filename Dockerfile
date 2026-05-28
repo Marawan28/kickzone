@@ -47,5 +47,6 @@ EXPOSE 10000
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 
+
 RUN php artisan config:clear
 RUN php artisan route:clear
