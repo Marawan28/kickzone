@@ -10,6 +10,7 @@
         "spatie/laravel-medialibrary": "^11.0",
         "darkaonline/l5-swagger": "^8.6",
         "predis/predis": "^2.0"
+        
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -42,8 +43,4 @@
 
     
 }
-{
-  "require": {
-    "parse/php-sdk": "*"
-  }
-}
+
