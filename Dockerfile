@@ -46,7 +46,6 @@ EXPOSE 10000
 # Run entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
-# 1. مسح الكاش (ضروري جداً عند الانتقال لبيئة جديدة)
-RUN php artisan cache:clear
+
 RUN php artisan config:clear
 RUN php artisan route:clear

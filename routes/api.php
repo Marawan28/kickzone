@@ -5,7 +5,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\API\V1\Auth\AuthController;
-use App\Http\Controllers\Api\v1\field\FieldController;
+use App\Http\Controllers\Api\V1\Field\FieldController;
 use App\Http\Controllers\API\V1\Booking\BookingController;
 use App\Http\Controllers\API\V1\Community\CommunityController;
 use App\Http\Controllers\API\V1\Financial\WalletController;

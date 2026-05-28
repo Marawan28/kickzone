@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1\Field;
+namespace App\Http\Controllers\API\V1\Field;
 use App\Http\Requests\Field\CreateFieldRequest;
 use App\Http\Controllers\Controller;
 use App\Services\FieldService;
