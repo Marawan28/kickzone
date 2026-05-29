@@ -50,7 +50,7 @@ public function registerPlayer(RegisterPlayerDTO $dto): User
             'email'    => $dto->email,
             'password' => Hash::make($dto->password),
             'role'     => UserRole::Owner,
-            'balance'  => 0.00,
+            'balance'  => 1000.00,
         ]);
     }
 
