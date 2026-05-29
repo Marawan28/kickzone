@@ -52,6 +52,7 @@ public function registerPlayer(RegisterPlayerDTO $dto): User
             'role'     => UserRole::Owner,
             'balance'  => 1000.00,
         ]);
+        $this->otpService->send($user->phone);
     }
 
     public function login(LoginDTO $dto): array
