@@ -54,4 +54,34 @@ class ProfileService
             'dsr_label'  => $this->dsrService->getDsrLabel((float) $user->dsr_score),
         ];
     }
+
+    /**
+     * Get owner-specific statistics (fields, bookings, revenue, rating).
+     */
+    public function getOwnerStats(int $userId): array
+    {
+        $user = User::with('fields.reviews')->withCount('fields')->find($userId);
+
+        $fieldIds = $user->fields->pluck('id');
+
+        // Total bookings across all owner's fields
+        $totalBookings = \App\Models\Booking::whereIn('field_id', $fieldIds)->count();
+
+        // Total revenue from confirmed bookings (sum of payment amounts)
+        $totalRevenue = \App\Models\Booking::whereIn('field_id', $fieldIds)
+            ->whereHas('payment')
+            ->with('payment')
+            ->get()
+            ->sum(fn ($booking) => (float) $booking->payment->amount);
+
+        // Average rating across all fields
+        $averageRating = \App\Models\FieldReview::whereIn('field_id', $fieldIds)->avg('rating');
+
+        return [
+            'total_fields'   => $user->fields_count,
+            'total_bookings' => $totalBookings,
+            'total_revenue'  => round($totalRevenue, 2),
+            'average_rating' => round($averageRating ?? 0, 1),
+        ];
+    }
 }

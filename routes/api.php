@@ -14,6 +14,7 @@ use App\Http\Controllers\API\V1\Profile\ProfileController;
 use App\Http\Controllers\API\V1\Team\TeamController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\NotificationController;
+use App\Http\Controllers\API\V1\Chat\ChatController;
 
 // ── Public routes (no auth) ────────────────────────────────
 Route::prefix('v1')->group(function (): void {
@@ -46,8 +47,8 @@ Route::prefix('v1')->group(function (): void {
         ));
 
         // Fields (owners manage, players browse)
-        Route::apiResource('fields', \App\Http\Controllers\API\V1\Field\FieldController::class);
-        Route::get('field/{field}/slots', [\App\Http\Controllers\API\V1\Field\FieldController::class, 'slots']);
+        Route::apiResource('fields', FieldController::class);
+        Route::get('field/{field}/slots', [FieldController::class, 'slots']);
 
         // Bookings
         Route::get   ('bookings',       [BookingController::class, 'index']);
@@ -67,7 +68,14 @@ Route::prefix('v1')->group(function (): void {
         Route::post('matches/{id}/join',    [MatchController::class, 'join']);
         Route::post('matches/{id}/rate',    [MatchController::class, 'submitRating']);
         Route::patch('matches/{id}/finish', [MatchController::class, 'finish']);
+
+        // AI recommendations
         Route::post('matchmaking',          [MatchController::class, 'matchmaking']);
+
+        // Queue-based matchmaking
+        Route::post('matchmaking/queue',              [MatchController::class, 'joinQueue']);
+        Route::delete('matchmaking/queue/{id}',      [MatchController::class, 'cancelQueue']);
+        Route::get('matchmaking/queue/status',        [MatchController::class, 'status']);
 
         // Community
         Route::get ('community/feed',                     [CommunityController::class, 'feed']);
@@ -77,14 +85,14 @@ Route::prefix('v1')->group(function (): void {
         Route::get ('community/forums',                   [CommunityController::class, 'forums']);
 
         // Teams
-        Route::apiResource('teams', \App\Http\Controllers\API\V1\Team\TeamController::class);
-        Route::post('teams/{id}/request', [\App\Http\Controllers\API\V1\Team\TeamController::class, 'request']);
-        Route::patch('team-requests/{id}', [\App\Http\Controllers\API\V1\Team\TeamController::class, 'respondToRequest']);
+        Route::apiResource('teams', TeamController::class);
+        Route::post('teams/{id}/request', [TeamController::class, 'request']);
+        Route::patch('team-requests/{id}', [TeamController::class, 'respondToRequest']);
 
         // Messages
-        Route::get ('chats',                   [\App\Http\Controllers\API\V1\Chat\ChatController::class, 'index']);
-        Route::get ('chats/{id}/messages',     [\App\Http\Controllers\API\V1\Chat\ChatController::class, 'messages']);
-        Route::post('chats/{id}/messages',     [\App\Http\Controllers\API\V1\Chat\ChatController::class, 'send']);
+        Route::get ('chats',                   [ChatController::class, 'index']);
+        Route::get ('chats/{id}/messages',     [ChatController::class, 'messages']);
+        Route::post('chats/{id}/messages',     [ChatController::class, 'send']);
         
 
        Route::get('notifications', [NotificationController::class, 'index']);

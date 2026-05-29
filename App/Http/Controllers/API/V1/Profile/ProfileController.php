@@ -27,9 +27,22 @@ class ProfileController extends Controller
      */
     public function show(Request $request): JsonResponse
     {
-        $user  = $request->user()->load(['city', 'profile']);
-        $stats = $this->profileService->getPlayerStats($request->user()->id);
-        return response()->json(['data' => new ProfileResource($user), 'stats' => $stats]);
+        $user = $request->user()->load(['city', 'profile']);
+
+        if ($user->isOwner()) {
+            $stats = $this->profileService->getOwnerStats($user->id);
+            return response()->json([
+                'data'  => new ProfileResource($user),
+                'stats' => $stats,
+            ]);
+        }
+
+        // Default: player profile
+        $stats = $this->profileService->getPlayerStats($user->id);
+        return response()->json([
+            'data'  => new ProfileResource($user),
+            'stats' => $stats,
+        ]);
     }
 
     /**
