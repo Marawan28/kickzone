@@ -2,7 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Artisan;
 
+Route::get('/run-migration-safely', function () {
+    Artisan::call('migrate', ['--force' => true]);
+    return "Done! Tables created successfully.";
+});
 Route::get('/', function () {
     return view('welcome');
 });
