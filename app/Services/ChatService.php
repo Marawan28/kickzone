@@ -4,7 +4,9 @@ namespace App\Services;
 
 use App\Models\Chat;
 use App\Models\Message;
+use App\Notifications\NewMessageNotification;
 use Illuminate\Support\Collection;
+
 
 class ChatService
 {

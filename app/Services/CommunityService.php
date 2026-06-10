@@ -12,7 +12,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class CommunityService
 {
-    public $timestamps = false;
+
     public function __construct(
         private readonly PostRepositoryInterface $postRepo,
     ) {}

@@ -46,7 +46,7 @@ class DsrService
             $dsr < 40  => 'Beginner',
             $dsr < 65  => 'Intermediate',
             $dsr < 80  => 'Advanced',
-            default    => 'Intermediate',
+            default    => 'Elite',
         };
     }
 }

@@ -5,11 +5,12 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\API\V1\Auth\AuthController;
-use App\Http\Controllers\Api\V1\Field\FieldController;
+use App\Http\Controllers\API\V1\Field\FieldController;
 use App\Http\Controllers\API\V1\Booking\BookingController;
 use App\Http\Controllers\API\V1\Community\CommunityController;
 use App\Http\Controllers\API\V1\Financial\WalletController;
 use App\Http\Controllers\API\V1\Match\MatchController;
+use App\Http\Controllers\API\V1\Matchmaking\MatchmakingQueueController;
 use App\Http\Controllers\API\V1\Profile\ProfileController;
 use App\Http\Controllers\API\V1\Team\TeamController;
 use Illuminate\Support\Facades\Route;
@@ -73,9 +74,9 @@ Route::prefix('v1')->group(function (): void {
         Route::post('matchmaking',          [MatchController::class, 'matchmaking']);
 
         // Queue-based matchmaking
-        Route::post('matchmaking/queue',              [MatchController::class, 'joinQueue']);
-        Route::delete('matchmaking/queue/{id}',      [MatchController::class, 'cancelQueue']);
-        Route::get('matchmaking/queue/status',        [MatchController::class, 'status']);
+        Route::post('matchmaking/queue',              [MatchmakingQueueController::class, 'join']);
+        Route::delete('matchmaking/queue/{id}',      [MatchmakingQueueController::class, 'cancel']);
+        Route::get('matchmaking/queue/status',        [MatchmakingQueueController::class, 'status']);
 
         // Community
         Route::get ('community/feed',                     [CommunityController::class, 'feed']);

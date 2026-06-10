@@ -18,7 +18,6 @@ use Illuminate\Http\Request;
  */
 class CommunityController extends Controller
 {
-    public $timestamps = false;
     public function __construct(
         private readonly CommunityService $communityService,
     ) {}
@@ -67,7 +66,7 @@ class CommunityController extends Controller
         $comment = $this->communityService->addComment(
             $id,
             $request->user()->id,
-            $request->content,
+            $request->validated()['content'],
         );
         return response()->json(['data' => new CommentResource($comment)], 201);
     }

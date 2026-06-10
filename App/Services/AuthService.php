@@ -12,7 +12,7 @@ use App\Enums\UserRole;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class AuthService
 {
@@ -44,7 +44,7 @@ public function registerPlayer(RegisterPlayerDTO $dto): User
 
     public function registerOwner(RegisterOwnerDTO $dto): User
     {
-        return $this->userRepo->create([
+        $user = $this->userRepo->create([
             'name'     => $dto->name,
             'phone'    => $dto->phone,
             'email'    => $dto->email,
@@ -52,7 +52,10 @@ public function registerPlayer(RegisterPlayerDTO $dto): User
             'role'     => UserRole::Owner,
             'balance'  => 1000.00,
         ]);
+
         $this->otpService->send($user->phone);
+
+        return $user;
     }
 
     public function login(LoginDTO $dto): array
@@ -60,11 +63,11 @@ public function registerPlayer(RegisterPlayerDTO $dto): User
         $user = $this->userRepo->findByPhone($dto->phone);
 
         if (! $user || ! Hash::check($dto->password, $user->password)) {
-            throw new UnauthorizedException('Invalid credentials.');
+            throw new AuthorizationException('Invalid credentials.');
         }
 
         if ($user->role->value !== $dto->role) {
-            throw new UnauthorizedException('Role mismatch.');
+            throw new AuthorizationException('Role mismatch.');
         }
 
         $token = $user->createToken('kickzone-token')->plainTextToken;

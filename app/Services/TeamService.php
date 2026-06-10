@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Models\Team;
 use App\Models\TeamRequest;
-use App\Models\TeamMember;
+use App\Models\User;
+use App\Notifications\TeamRequestNotification;
 use Illuminate\Support\Facades\DB;
+
 
 class TeamService
 {
@@ -32,20 +34,25 @@ class TeamService
 
             if ($status === 'accepted') {
              $matchId = $teamRequest->team->match_id;
+             if ($matchId === null) {
+                 throw new \DomainException('Team has no match_id yet.');
+             }
 
-  
+             // match_players table schema is (match_id, user_id)
              DB::table('match_players')->insert([
                 'match_id' => $matchId,
                 'user_id'  => $teamRequest->user_id,
-                'team_id'  => $teamRequest->team_id,
                 'created_at' => now(),
-    ]);
+             ]);
 
-                // 2. نسمع في علاقة الـ Many-to-Many (players)
+                // 2. Add player to team
                 $teamRequest->team->players()->syncWithoutDetaching([$teamRequest->user_id]);
+
+                // Notify requester (uses existing notification)
                 $user = User::find($teamRequest->user_id);
-                $user->notify(new TeamRequestAccepted($teamRequest->team));
-        
+                if ($user) {
+                    $user->notify(new TeamRequestNotification($teamRequest->team));
+                }
             }
 
             return $teamRequest;

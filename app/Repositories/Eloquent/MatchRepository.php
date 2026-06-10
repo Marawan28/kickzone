@@ -40,7 +40,7 @@ class MatchRepository implements MatchRepositoryInterface
                     $q->where('price_per_hour', '<=', $filters['max_price']);
                 }
             })
-            ->whereRaw('(SELECT COUNT(*) FROM match_players WHERE match_game_id = matches.id) < matches.max_players')
+            ->whereRaw('(SELECT COUNT(*) FROM match_players WHERE match_players.match_id = match_games.id) < match_games.max_players')
             ->get();
     }
 

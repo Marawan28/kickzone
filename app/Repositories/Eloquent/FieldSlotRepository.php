@@ -15,9 +15,10 @@ class FieldSlotRepository implements FieldSlotRepositoryInterface
 {
     public function findAvailable(int $slotId): ?FieldSlot
     {
-        return FieldSlot::where('id', $slotId)
-                        ->where('is_booked', false)
-                        ->first();
+        return FieldSlot::with('field')
+            ->where('id', $slotId)
+            ->where('is_booked', false)
+            ->first();
     }
 
     /**
