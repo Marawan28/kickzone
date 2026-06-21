@@ -15,7 +15,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append([
             \App\Http\Middleware\ForceJsonResponse::class,
             \App\Http\Middleware\SetApiLocale::class,
-            \App\Http\Middleware\RoleMiddleware::class,
+            ]);
+        $middleware->alias([
             \App\Http\Middleware\EnsureUserIsOwner::class,
             \App\Http\Middleware\EnsurePhoneVerified::class,
         ]);
