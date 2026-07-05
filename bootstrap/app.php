@@ -11,16 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->append([
-            \App\Http\Middleware\ForceJsonResponse::class,
-            \App\Http\Middleware\SetApiLocale::class,
-            ]);
+    ->withMiddleware(function (Middleware $middleware) {
+        // تسجيل الميدل وير هنا بـ اسم مستعار (Alias)
         $middleware->alias([
-            \App\Http\Middleware\EnsureUserIsOwner::class,
-            \App\Http\Middleware\EnsurePhoneVerified::class,
+            'auth.firebase' => \App\Http\Middleware\FirebaseAuthMiddleware::class,
         ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        \App\Exceptions\KickZoneExceptionHandler::register($exceptions);
+    ->withExceptions(function (Exceptions $exceptions) {
+        //
     })->create();

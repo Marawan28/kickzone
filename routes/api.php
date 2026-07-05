@@ -30,8 +30,8 @@ Route::prefix('v1')->group(function (): void {
         Route::post('googleCallback',  [AuthController::class, 'googleCallback']);
      
 });
-    // ── Protected routes (Sanctum auth) ───────────────────
-    Route::middleware('auth:sanctum')->group(function (): void {
+    // ── Protected routes (firebase auth) ───────────────────
+    Route::middleware('auth.firebase')->group(function (): void {
 
         // Auth
         Route::post('auth/logout',    [AuthController::class, 'logout']);

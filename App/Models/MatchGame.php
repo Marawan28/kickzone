@@ -32,11 +32,14 @@ class MatchGame extends Model
         return $this->belongsTo(Field::class);
     }
 
-    public function players(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
+  public function players(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+   {
+
         return $this->belongsToMany(User::class, 'match_players')
+
                     ->withTimestamps();
-    }
+
+    } 
 
     public function chat(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

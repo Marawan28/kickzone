@@ -112,7 +112,7 @@ class MatchService
         $positionNeeded = $match->players()
             ->pluck('preferred_position')
             ->toArray();
-        if (! in_array($user->preferred_position->value, $positionNeeded, true)) {
+        if (! in_array($user->PreferredPosition, $positionNeeded, true)) {
             $score += 30; // Player fills a needed position
         }
 
