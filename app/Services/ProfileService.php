@@ -28,15 +28,13 @@ class ProfileService
             'bio'                => $dto->bio,
         ]);
     }
-
     public function uploadAvatar(int $userId, $file): User
     {
         $user = $this->userRepo->findById($userId);
         $user->addMedia($file)
-             ->toMediaCollection('avatar');
+        ->toMediaCollection('avatar');
         return $user->fresh();
     }
-
     public function getPlayerStats(int $userId): array
     {
         $user    = User::withCount([
@@ -55,9 +53,6 @@ class ProfileService
         ];
     }
 
-    /**
-     * Get owner-specific statistics (fields, bookings, revenue, rating).
-     */
     public function getOwnerStats(int $userId): array
     {
         $user = User::with('fields.reviews')->withCount('fields')->find($userId);

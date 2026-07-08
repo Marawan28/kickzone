@@ -154,19 +154,17 @@ class MatchmakingQueueService
                 ->forPlayerCount($entry->player_count)
                 ->atTime($entry->preferred_time)
                 ->withinSkillRange($entry->skill_level, self::SKILL_TOLERANCE)
-                ->where('id', '!=', $entry->id) // Exclude self
-                ->lockForUpdate()               // 🔒 Prevent race conditions
-                ->oldest()                       // First come, first served
+                ->where('id', '!=', $entry->id) 
+                ->lockForUpdate()               
+                ->oldest()                       
                 ->first();
 
             if (!$opponent) {
                 return null;
             }
 
-            // Also lock the current entry to prevent concurrent modifications
             $entry = MatchmakingEntry::lockForUpdate()->find($entry->id);
 
-            // Double-check both are still waiting (guard against race)
             if (
                 $entry->status !== MatchmakingStatus::Waiting ||
                 $opponent->status !== MatchmakingStatus::Waiting
@@ -197,19 +195,16 @@ class MatchmakingQueueService
                 ->forPlayerCount($entry->player_count)
                 ->atTime($entry->preferred_time)
                 ->withinSkillRange($entry->skill_level, self::SKILL_TOLERANCE)
-                ->lockForUpdate()   // 🔒 Lock all candidates
-                ->oldest()          // First come, first served
+                ->lockForUpdate() 
+                ->oldest()        
                 ->get();
 
-            // Not enough players yet — stay in queue
             if ($candidates->count() < $entry->player_count) {
                 return null;
             }
 
-            // Take exactly the number of players needed
             $selected = $candidates->take($entry->player_count);
 
-            // Double-check all are still waiting
             $allWaiting = $selected->every(
                 fn (MatchmakingEntry $e) => $e->status === MatchmakingStatus::Waiting
             );

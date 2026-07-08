@@ -17,11 +17,10 @@ class TeamController extends Controller
         $this->teamService = $teamService;
     }
 
-    // إنشاء فريق جديد
     public function store(StoreTeamRequest $request): JsonResponse
     {
         $data = $request->validated();
-        $data['owner_id'] = auth()->id() ?? 1; // بنسجل اللي كريت الفريق كصاحب ليه
+        $data['owner_id'] = auth()->id(); // بنسجل اللي كريت الفريق كصاحب ليه
 
         $team = $this->teamService->createTeam($data);
         return response()->json($team, 201);

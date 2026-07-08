@@ -36,20 +36,19 @@ class FieldController extends Controller
 
     public function store(CreateFieldRequest $request)
 {
-    // بنبعت البيانات المفحوصة (validated) للسيرفس
+  
     $field = $this->fieldService->createField($request->validated());
 
     return response()->json([
         'status'  => true,
         'message' => 'Field created successfully',
         'data'    => $field
-    ], 201); // 201 تعني Created
+    ], 201); 
 }
 
 
 public function slots($id)
 {
-    // بنطلب من السيرفس تجيب المواعيد المتاحة للملعب ده
     $slots = $this->fieldService->getAvailableSlots($id);
 
     return response()->json([
@@ -57,5 +56,4 @@ public function slots($id)
         'data' => $slots
     ]);
 }
-
 }
