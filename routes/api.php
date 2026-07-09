@@ -16,6 +16,7 @@ use App\Http\Controllers\API\V1\Team\TeamController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\NotificationController;
 use App\Http\Controllers\API\V1\Chat\ChatController;
+use App\Http\Controllers\API\V1\Dashboard\DashboardController;
 use App\Http\Controllers\API\V1\Agent\AgentController;
 
 // ── Public routes (no auth) ────────────────────────────────
@@ -100,6 +101,9 @@ Route::prefix('v1')->group(function (): void {
        Route::get('notifications', [NotificationController::class, 'index']);
        Route::patch('notifications/{id}/read', [NotificationController::class, 'markAsRead']);
        Route::post('/agent/chat', [AgentController::class, 'chat']);
+
+        // Owner Dashboard
+        Route::get('owner/dashboard', [DashboardController::class, 'index']);
     });
 });
 
